@@ -1,0 +1,136 @@
+[  
+   {  
+      "id":"b93298b4.92f8a8",
+      "type":"inject",
+      "z":"b42ea33e.d1d02",
+      "name":"Click here to Start Recording",
+      "topic":"",
+      "payload":"start",
+      "payloadType":"str",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":180,
+      "y":100,
+      "wires":[  
+         [  
+            "65f6d61.66efb28"
+         ]
+      ]
+   },
+   {  
+      "id":"7e4d1827.169428",
+      "type":"comment",
+      "z":"b42ea33e.d1d02",
+      "name":"#2 Pass the .wav buffer to Watson Speech to Text",
+      "info":"Pass the .wav buffer to Watson Speech to Text",
+      "x":490,
+      "y":320,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"d7cd09d3.837dd8",
+      "type":"watson-speech-to-text",
+      "z":"b42ea33e.d1d02",
+      "name":"",
+      "alternatives":"",
+      "speakerlabels":false,
+      "smartformatting":false,
+      "lang":"en-GB",
+      "langhidden":"en-GB",
+      "langcustom":"NoCustomisationSetting",
+      "langcustomhidden":"",
+      "band":"BroadbandModel",
+      "bandhidden":"BroadbandModel",
+      "password":"Hn0uPARxwUZT",
+      "apikey":"",
+      "payload-response":true,
+      "streaming-mode":false,
+      "streaming-mute":false,
+      "auto-connect":false,
+      "discard-listening":false,
+      "disable-precheck":false,
+      "default-endpoint":true,
+      "service-endpoint":"",
+      "x":440,
+      "y":360,
+      "wires":[  
+         [  
+            "df40cbde.32b8b8"
+         ]
+      ]
+   },
+   {  
+      "id":"89540863.10a1e8",
+      "type":"comment",
+      "z":"b42ea33e.d1d02",
+      "name":"#1 Record a message",
+      "info":"/usr/bin/arecord is available on \n   - Mac OSX\n   - Linux (ALSA)\n\nExperiment with SoX on Windows",
+      "x":120,
+      "y":60,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"df40cbde.32b8b8",
+      "type":"debug",
+      "z":"b42ea33e.d1d02",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":630,
+      "y":360,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"65f6d61.66efb28",
+      "type":"exec",
+      "z":"b42ea33e.d1d02",
+      "command":"/usr/bin/arecord -D hw:2,0 -r 16000  -f S16_LE /home/pi/test.wav",
+      "addpay":false,
+      "append":"",
+      "useSpawn":"false",
+      "timer":"",
+      "oldrc":false,
+      "name":"",
+      "x":340,
+      "y":220,
+      "wires":[  
+         [  
+            "aca294f6.eeca48"
+         ],
+         [  
+
+         ],
+         [  
+
+         ]
+      ]
+   },
+   {  
+      "id":"aca294f6.eeca48",
+      "type":"file in",
+      "z":"b42ea33e.d1d02",
+      "name":"",
+      "filename":"/home/pi/test.wav",
+      "format":"",
+      "chunk":false,
+      "sendError":false,
+      "x":230,
+      "y":360,
+      "wires":[  
+         [  
+            "d7cd09d3.837dd8"
+         ]
+      ]
+   }
+]
