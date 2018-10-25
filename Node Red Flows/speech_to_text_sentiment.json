@@ -1,12 +1,5 @@
 [  
    {  
-      "id":"c5fe18f6.ecc038",
-      "type":"tab",
-      "label":"Flow 3",
-      "disabled":false,
-      "info":""
-   },
-   {  
       "id":"c487780f.1d0748",
       "type":"microphone",
       "z":"c5fe18f6.ecc038",
@@ -201,6 +194,54 @@
          [  
             "66c9ee55.cd13d"
          ]
+      ]
+   },
+   {  
+      "id":"9729f9c5.b84e88",
+      "type":"twitter in",
+      "z":"c5fe18f6.ecc038",
+      "twitter":"",
+      "tags":"@matthewfrench71",
+      "user":"user",
+      "name":"",
+      "inputs":1,
+      "x":540,
+      "y":420,
+      "wires":[  
+         [  
+            "710a959c.9e8aac",
+            "15dfb981.9ae496"
+         ]
+      ]
+   },
+   {  
+      "id":"710a959c.9e8aac",
+      "type":"sentiment",
+      "z":"c5fe18f6.ecc038",
+      "name":"",
+      "property":"payload",
+      "x":780,
+      "y":440,
+      "wires":[  
+         [  
+            "76707474.201c8c"
+         ]
+      ]
+   },
+   {  
+      "id":"15dfb981.9ae496",
+      "type":"debug",
+      "z":"c5fe18f6.ecc038",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"false",
+      "x":790,
+      "y":500,
+      "wires":[  
+
       ]
    }
 ]
