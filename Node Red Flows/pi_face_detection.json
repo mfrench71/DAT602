@@ -59,45 +59,6 @@
       "y":260,
       "wires":[  
          [  
-            "8c437b3a.625b58",
-            "a3223910.c1bf88"
-         ]
-      ]
-   },
-   {  
-      "id":"8c437b3a.625b58",
-      "type":"debug",
-      "z":"dc02d792.833b48",
-      "name":"",
-      "active":false,
-      "tosidebar":true,
-      "console":false,
-      "tostatus":false,
-      "complete":"false",
-      "x":850,
-      "y":260,
-      "wires":[  
-
-      ]
-   },
-   {  
-      "id":"a3223910.c1bf88",
-      "type":"trigger",
-      "z":"dc02d792.833b48",
-      "op1":"1",
-      "op2":"0",
-      "op1type":"str",
-      "op2type":"str",
-      "duration":"2",
-      "extend":false,
-      "units":"s",
-      "reset":"",
-      "bytopic":"all",
-      "name":"",
-      "x":280,
-      "y":360,
-      "wires":[  
-         [  
             "f1b67939.a6ed08"
          ]
       ]
@@ -123,11 +84,11 @@
       "id":"8e0bdd35.0b837",
       "type":"function",
       "z":"dc02d792.833b48",
-      "name":"",
+      "name":"Read Image",
       "func":"msg.headers = {\n \"Content-Type\":\"image/jpeg\"\n};\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":740,
+      "x":760,
       "y":380,
       "wires":[  
          [  
@@ -143,7 +104,7 @@
       "vr-service-endpoint":"https://gateway.watsonplatform.net/visual-recognition/api",
       "image-feature":"detectFaces",
       "lang":"",
-      "x":910,
+      "x":950,
       "y":380,
       "wires":[  
          [  
@@ -160,8 +121,8 @@
       "tosidebar":true,
       "console":false,
       "tostatus":false,
-      "complete":"true",
-      "x":1090,
+      "complete":"result",
+      "x":1130,
       "y":380,
       "wires":[  
 
