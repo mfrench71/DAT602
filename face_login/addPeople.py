@@ -2,6 +2,7 @@
 import urllib, httplib, base64, json
 import sys
 import os
+import time
 
 people = ['Cass','Donald','Matthew']
 nameAndID = [] # empty list for persons' name and personId
@@ -39,6 +40,7 @@ def addFaceToPerson(list):
                 response = conn.getresponse()
                 data = json.loads(response.read()) # successful run will print persistedFaceId
                 print(data)
+                time.sleep(3)
     conn.close()
 
 addFaceToPerson(addPeople())

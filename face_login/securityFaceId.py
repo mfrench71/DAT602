@@ -1,6 +1,8 @@
+
 #*****FaceId.py*****#
 
 import requests
+import paho.mqtt.client as mqttClient
 from operator import itemgetter
 #from twilio.rest import Client
 from picamera import PiCamera
@@ -10,10 +12,10 @@ import os
 import urllib, httplib, base64, json
 import boto3
 import datetime
+import shutil
 import time
-
 #import RPi.GPIO as GPIO
-import time 
+
 BaseDirectory = '/home/pi/DAT602/images/' # directory where picamera photos are stored
 KEY = '750cc2f2c6fe4633a2ace4e9d7335867' # authorization key for azure
 #account_sid = '_____' # twilio sid
@@ -52,6 +54,7 @@ camera = PiCamera() # initiate camera
 #    GPIO.output(Green, 0)
 #    GPIO.output(Blue, 0)
 #    time.sleep(.3)
+
 
 # iterates through specified directory, detecting faces in .jpg files
 def iter():
@@ -168,9 +171,27 @@ while True:
         if result[0][1] > .7: # if confidence is greater than .7 get name of person
             print(getName(result[0][0])+' recognised.')
             #time.sleep(600) # if recognized stop for 10 mins
+        #remove uploaded images
+        if os.path.isdir(directory):
+            shutil.rmtree(directory)
+            break
+
+
         else:
             for files in fileList:
                 link = uploadPhoto(files) # upload all photos of incident for evidence
             print('Face NOT recognised' + str(count)) # send message
             time.sleep(30) # wait 30 seconds before looking for motion again
 
+Connected = False   #global variable for the state of the connection
+broker_address= "m23.cloudmqtt.com"
+port = 16269
+user = "xtrzjlsv"
+password = "WK0MHl3W2D5j"
+
+client = mqttClient.Client("DAT602")               #create new instance
+client.username_pw_set(user, password=password)    #set username and password
+#client.on_connect= on_connect                      #attach function to callback
+client.connect(broker_address, port=port)          #connect to broker
+client.publish("DAT602/test", getName(result[0][0]))
+client.disconnect()
