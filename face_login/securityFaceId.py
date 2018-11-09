@@ -1,10 +1,8 @@
-
-#*****FaceId.py*****#
+#*****securityFaceId.py*****#
 
 import requests
 import paho.mqtt.client as mqttClient
 from operator import itemgetter
-#from twilio.rest import Client
 from picamera import PiCamera
 import sys
 import json
@@ -14,57 +12,27 @@ import boto3
 import datetime
 import shutil
 import time
-#import RPi.GPIO as GPIO
 
 BaseDirectory = '/home/pi/DAT602/images/' # directory where picamera photos are stored
 KEY = '750cc2f2c6fe4633a2ace4e9d7335867' # authorization key for azure
-#account_sid = '_____' # twilio sid
-#auth_token = '_____' # twilio authorization token
 group_id = 'users' # name of personGroup
 bucketName = 'dat-602-users' # aws s3 bucket name
 
-#*****Raspberry Pi pin setup*****#
-#Blue = 11
-#Red = 12
-#Green = 13
-#Pir= 16
-
-#GPIO.setwarnings(False)
-#GPIO.setmode(GPIO.BOARD)
-#GPIO.setup(Blue, GPIO.OUT)
-#GPIO.setup(Red, GPIO.OUT)
-#GPIO.setup(Green, GPIO.OUT)
-#GPIO.setup(Pir, GPIO.IN)
-
 #*****Camera Setup*****#
 camera = PiCamera() # initiate camera
-#camera.rotation = 180 # Used to correct orientation of camera
 
 #*****FUNCTIONS*****#
 
-# LED on off functions
-#def lightOff():
-#    GPIO.output(Red, 1)
-#    GPIO.output(Green, 1)
-#    GPIO.output(Blue, 1)
-#    time.sleep(.3)
 
-#def lightOn():
-#    GPIO.output(Red, 0)
-#    GPIO.output(Green, 0)
-#    GPIO.output(Blue, 0)
-#    time.sleep(.3)
-
-
-# iterates through specified directory, detecting faces in .jpg files
+# Traverse specified directory, detecting faces in .jpg files
 def iter():
     for fileName in os.listdir(directory):
         if fileName.endswith('.jpg'):
-            filePath = os.path.join(directory, fileName) # joins directory path with filename to create file's full path
+            filePath = os.path.join(directory, fileName) #create full file path
             fileList.append(filePath)
             detect(filePath)
 
-# detects faces in images from previously stated directory using azure post request
+#Detect faces in images in directory using Face API post request
 def detect(img_url):
     headers = {'Content-Type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key': KEY}
     body = open(img_url,'rb')
@@ -75,13 +43,13 @@ def detect(img_url):
     response = conn.getresponse()
     photo_data = json.loads(response.read())
 
-    if not photo_data: # if post is empty (meaning no face found)
+    if not photo_data: # if post response is empty (no face found)
         print('No face identified')
     else: # if face is found
         for face in photo_data: # for the faces identified in each photo
             faceIdList.append(str(face['faceId'])) # get faceId for use in identify
 
-# Takes in list of faceIds and uses azure post request to match face to known faces
+# Receives a  list of faceIds and uses post API request to match face to known faces
 def identify(ids):
     if not faceIdList: # if list is empty, no faces found in photos
         result = [('n', .0), 'n'] # create result with 0 confidence
@@ -89,6 +57,7 @@ def identify(ids):
     else: # else there is potential for a match
         headers = {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': KEY}
         params = urllib.urlencode({'personGroupId': group_id})
+
         body = "{'personGroupId':'users', 'faceIds':"+str(ids)+", 'confidenceThreshold': '.5'}"
         conn = httplib.HTTPSConnection('westus.api.cognitive.microsoft.com')
         conn.request("POST", "/face/v1.0/identify?%s" % params, body, headers)
@@ -108,11 +77,10 @@ def identify(ids):
         return sortedConfidence[-1] # returns tuple with highest confidence value (sorted from smallest to biggest)
 
 
-# takes in person_id and retrieves known person's name with azure GET request
+# Accepts a person_id and retrieves known person's name with API GET request
 def getName(person_Id):
     headers = {'Ocp-Apim-Subscription-Key': KEY}
     params = urllib.urlencode({'personGroupId': group_id, 'personId': person_Id})
-
     conn = httplib.HTTPSConnection('westus.api.cognitive.microsoft.com')
     conn.request("GET", "/face/v1.0/persongroups/{"+group_id+"}/persons/"+person_Id+"?%s" % params, "{body}", headers)
     response = conn.getresponse()
@@ -120,27 +88,6 @@ def getName(person_Id):
     name = data['name']
     conn.close()
     return name
-
-# uses twilio rest api to send mms message, takes in message as body of text, and url of image
-#def twilio(message, imageLink):
-#    client = Client(account_sid, auth_token)
-
-#    message = client.messages.create(to='<destination phone number>', from_='<Your twilio phone number>', body = message, media_url=imageLink)
-
-#    print(message.sid)
-
-# uses aws s3 to upload photos
-def uploadPhoto(fName):
-    s3=boto3.resource('s3')
-    data = open(fName, 'rb')
-    s3.Bucket(bucketName).put_object(Key=fName, Body=data, ContentType = 'image/jpeg')
-
-    # makes uploaded image link public
-    object_acl = s3.ObjectAcl(bucketName, fName)
-    response = object_acl.put(ACL='public-read')
-
-    link = 'https://s3-eu.amazonaws.com/'+bucketName+'/'+fName
-    return link
 
 #*****Main*****#
 count = 0
@@ -152,46 +99,49 @@ while True:
     i = 1
     if i==0:
         print("No Intruders")
-       # lightOff()
     elif i==1:
         count += 1 # count allows for a new directory to be made for each set of photos
         directory = BaseDirectory+str(count)+'/'
         print("Starting...")
-        #lightOn()
-        os.mkdir(directory) # make new directory for photos to be uploaded to
+        if not os.path.isdir(directory):
+            os.mkdir(directory) # make new directory for photos to be uploaded to
         print('Count: ' + str(count))
-        print('Directory: ' + directory)
         for x in range(0,1):
             date = datetime.datetime.now().strftime('%m_%d_%Y_%M_%S_') # change file name for every photo
-            print('Taking photo...')
             camera.capture(directory + date +'.jpg')
             time.sleep(1) # take photo every second
         iter()
+        print('Directory: ' + directory)
+        date = datetime.datetime.now().strftime('%m_%d_%Y_%M_%S_') # change file name for every photo
+        print('Taking photo...')
+        camera.capture(directory + date +'.jpg')
         result = identify(faceIdList)
         if result[0][1] > .7: # if confidence is greater than .7 get name of person
-            print(getName(result[0][0])+' recognised.')
-            #time.sleep(600) # if recognized stop for 10 mins
-        #remove uploaded images
-        if os.path.isdir(directory):
-            shutil.rmtree(directory)
-            break
-
+            print(getName(result[0][0]) +' recognised.')
+            #remove uploaded images
+            if os.path.isdir(directory):
+                shutil.rmtree(directory)
+                break
 
         else:
-            for files in fileList:
-                link = uploadPhoto(files) # upload all photos of incident for evidence
             print('Face NOT recognised' + str(count)) # send message
-            time.sleep(30) # wait 30 seconds before looking for motion again
+            if os.path.isdir(directory):
+                shutil.rmtree(directory)
+            time.sleep(5) # wait 5 seconds before taking another picture
 
-Connected = False   #global variable for the state of the connection
+#*****Publish name of recognised person over MQTT*****#
+
 broker_address= "m23.cloudmqtt.com"
+#broker address = "mqtt://broker.i-dat.org:80"
 port = 16269
+#port = 80
 user = "xtrzjlsv"
 password = "WK0MHl3W2D5j"
 
 client = mqttClient.Client("DAT602")               #create new instance
 client.username_pw_set(user, password=password)    #set username and password
 #client.on_connect= on_connect                      #attach function to callback
+print('Connecting to MQTT broker')
 client.connect(broker_address, port=port)          #connect to broker
 client.publish("DAT602/test", getName(result[0][0]))
 client.disconnect()
