@@ -8,7 +8,6 @@ import sys
 import json
 import os
 import urllib, httplib, base64, json
-import boto3
 import datetime
 import shutil
 import time
@@ -92,42 +91,35 @@ def getName(person_Id):
 #*****Main*****#
 count = 0
 while True:
-    # lists are refreshed for every incident of motion
     fileList = [] # list of filePaths that were passed through as images
     faceIdList = [] # list for face id's generated using api - detect
     confidenceList = [] # list of confidence values derived from api - identify
-    i = 1
-    if i==0:
-        print("No Intruders")
-    elif i==1:
-        count += 1 # count allows for a new directory to be made for each set of photos
-        directory = BaseDirectory+str(count)+'/'
-        print("Starting...")
-        if not os.path.isdir(directory):
-            os.mkdir(directory) # make new directory for photos to be uploaded to
-        print('Count: ' + str(count))
-        for x in range(0,1):
-            date = datetime.datetime.now().strftime('%m_%d_%Y_%M_%S_') # change file name for every photo
-            camera.capture(directory + date +'.jpg')
-            time.sleep(1) # take photo every second
-        iter()
-        print('Directory: ' + directory)
+    count += 1 # count allows for a new directory to be made for each set of photos
+    directory = BaseDirectory+str(count)+'/'
+    print("Starting...")
+    if not os.path.isdir(directory):
+        os.mkdir(directory) # make new directory for photos to be uploaded to
+    print('Count: ' + str(count))
+    for x in range(0,1):
         date = datetime.datetime.now().strftime('%m_%d_%Y_%M_%S_') # change file name for every photo
         print('Taking photo...')
         camera.capture(directory + date +'.jpg')
-        result = identify(faceIdList)
-        if result[0][1] > .7: # if confidence is greater than .7 get name of person
-            print(getName(result[0][0]) +' recognised.')
-            #remove uploaded images
-            if os.path.isdir(directory):
-                shutil.rmtree(directory)
-                break
+        time.sleep(1) # take photo every second
+    iter()
+    print('Directory: ' + directory)
+    result = identify(faceIdList)
+    if result[0][1] > .7: # if confidence is greater than .7 get name of person
+        print(getName(result[0][0]) +' recognised.')
+        #remove uploaded images
+        if os.path.isdir(directory):
+            shutil.rmtree(directory)
+            break
 
-        else:
-            print('Face NOT recognised' + str(count)) # send message
-            if os.path.isdir(directory):
-                shutil.rmtree(directory)
-            time.sleep(5) # wait 5 seconds before taking another picture
+    else:
+        print('Face NOT recognised' + str(count)) # send message
+        if os.path.isdir(directory):
+            shutil.rmtree(directory)
+        time.sleep(5) # wait 5 seconds before taking another picture
 
 #*****Publish name of recognised person over MQTT*****#
 
