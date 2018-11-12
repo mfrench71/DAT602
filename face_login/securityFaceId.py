@@ -15,7 +15,6 @@ import time
 BaseDirectory = '/home/pi/DAT602/images/' # directory where picamera photos are stored
 KEY = '750cc2f2c6fe4633a2ace4e9d7335867' # authorization key for azure
 group_id = 'users' # name of personGroup
-bucketName = 'dat-602-users' # aws s3 bucket name
 
 #*****Camera Setup*****#
 camera = PiCamera() # initiate camera
@@ -116,7 +115,8 @@ while True:
             break
 
     else:
-        print('Face NOT recognised' + str(count)) # send message
+        print('Face NOT recognised')
+        #remove uploaded images
         if os.path.isdir(directory):
             shutil.rmtree(directory)
         time.sleep(5) # wait 5 seconds before taking another picture
