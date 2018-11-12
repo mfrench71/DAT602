@@ -9,9 +9,6 @@ Webcam.attach('#my_camera');
 var canvas = document.getElementById('viewport'),
   context = canvas.getContext('2d');
 
-var faceIdGlobal = '';
-var personIdGlobal = '';
-
 function take_snapshot() {
   // take snapshot and get image data
   Webcam.snap(function(data_uri) {
