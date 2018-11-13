@@ -17,24 +17,31 @@
 </head>
 <body>
     <div class="container">
-        <div id="my_camera"></div>
-        <form>
-          <input type=button class="btn btn-primary" value="Take Snapshot" onClick="take_snapshot()">
-        </form>
-
-        <canvas id="viewport" width="320" height="240"></canvas>
-
-        <div>Your results will appear below:
+        <div class="row mt-2">
+            <div class="col">
+                <div id="my_camera"></div>
+                <form class="mb-2 mt-2">
+                  <input type=button class="btn btn-primary" value="Take Snapshot" onClick="take_snapshot()">
+                </form>
+            </div>
+            <div class="col">
+                <canvas id="viewport" width="320" height="240"></canvas>
+            </div>
+        </div>
+        
+        <div class="row">
+          <div class="col">Detect face:
             <pre id="results">
             </pre>
-        </div>
-         <div>Identity:
+         </div>
+          <div class="col">Identity:
             <pre id="identity">
             </pre>
         </div>
-        <div>Name:
+          <div class="col">Name:
             <pre id="name">
             </pre>
+         </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
