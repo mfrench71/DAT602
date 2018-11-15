@@ -1,7 +1,20 @@
-<h1><i class="far fa-grin-wink"></i> Face Login</h1>
+<h1><i class="far fa-grin-wink mb-4"></i> Face Login</h1>
+
 {{#unless user}}
-	<p class="lead">
-	    <a href="/login" class="btn btn-lg btn-secondary">Login</a>
-	    <a href="/signup" class="btn btn-lg btn-secondary">Signup</a>
-	</p>
+	<div class="row text-center">
+	    <div class="col text-center my-auto">
+	        <div class="card bg-secondary">
+	            <div class="card-body align-items-center d-flex justify-content-center">
+	                <a href="/login" class="btn btn-lg btn-block btn-secondary">Login</a>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col text-center my-auto">
+	        <div class="card bg-secondary">
+	            <div class="card-body align-items-center d-flex justify-content-center">
+	                <a href="/signup" class="btn btn-lg btn-block btn-secondary">Signup</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 {{/unless}}
