@@ -1,0 +1,26 @@
+<style>
+    .form-group  { display: none; }
+</style>
+<h1><span class="fa fa-sign-in"></span> Login</h1>
+<div class="row">
+    <div class="col">
+        <div id="my_camera"></div>
+    </div>
+    <div class="col">
+        <canvas id="viewport" width="320" height="240"></canvas>
+    </div>
+</div>
+<!-- Login Form -->
+<form id="login" action="/login" method="post">
+    <div class="form-group">
+        <label>Username</label>
+        <input id="name" type="text" class="form-control" name="username">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input id="password" type="password" class="form-control" name="password">
+    </div>
+    <input type=button class="btn btn-primary btn-lg" value="Login" onClick="take_snapshot()">
+</form>
+<script src="webcam.min.js"></script>
+<script src="javascript.js"></script>
