@@ -4,14 +4,14 @@ module.exports = function(app, passport) {
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
-        res.render('index', {
+        res.render('index.hbs', {
             user: req.user
         });
     });
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile', {
+        res.render('profile.hbs', {
             user : req.user
         });
     });
@@ -30,7 +30,7 @@ module.exports = function(app, passport) {
         // LOGIN ===============================
         // show the login form
         app.get('/login', function(req, res) {
-            res.render('login', { message: req.flash('loginMessage') });
+            res.render('login.hbs', { message: req.flash('loginMessage') });
         });
 
         // process the login form
@@ -43,7 +43,7 @@ module.exports = function(app, passport) {
         // SIGNUP =================================
         // show the signup form
         app.get('/signup', function(req, res) {
-            res.render('signup', { message: req.flash('signupMessage') });
+            res.render('signup.hbs', { message: req.flash('signupMessage') });
         });
 
         // process the signup form

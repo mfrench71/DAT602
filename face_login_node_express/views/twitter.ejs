@@ -25,13 +25,13 @@
 	<script>
 	// Create the dataset by looping over the friends array
 	var items = new vis.DataSet([
-		{{#each friends}} {
+		<% for(var i=0; i<friends.length; i++) {%>
 			{
-				id: {{@index}}>,
+				id: <%= i %>,
 				start: '<%= friends[i].created_at %>',
 				content: '<div class="user-image"><img src="<%= friends[i].profile_image %>" style="border-bottom: 3px solid #<%= friends[i].link_color %>;" /></div><div class="user-info"><b><%= friends[i].name %></b><br />@<%= friends[i].screen_name %></div>'
-			}
-		{{/each}}
+			}<% if (i != friends.length-1) {%>,<%}%>
+		<% } %>
 	]);
 
 	// Reference to the visualization container

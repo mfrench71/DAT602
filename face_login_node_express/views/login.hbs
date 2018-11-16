@@ -1,7 +1,17 @@
 <style>
     /* Hide login form elements */
-    .form-group  { display: none; }
-    #viewport, #my_camera {border:1px solid silver;}
+    .form-group  {
+        display: none; 
+    }
+    /* Preview styling */
+    #viewport, #my_camera {
+        border: 1px solid silver;
+        background-color: white;
+    }
+    #viewport {
+        background: white url('camera-solid.svg') no-repeat center;
+        background-size: 100px 100px;
+    }
 </style>
 <h1><i class="fas fa-sign-in-alt"></i> Login</h1>
 <div class="row text-center">
@@ -13,9 +23,8 @@
         </div>
     </div>
     <div class="col text-center my-auto">
-        <div class="card bg-light">
+        <div id="card" class="card bg-warning">
             <div class="card-body align-items-center d-flex justify-content-center">
-                Awaiting Identification...
                 <canvas id="viewport" width="320" height="240"></canvas>
             </div>
         </div>

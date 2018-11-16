@@ -32,12 +32,18 @@ function take_snapshot() {
               data: blobData
             })
             .done(function(data) {
-              $("#results").text(JSON.stringify(data, null, 2));
-              faceIdGlobal = data[0].faceId;
-              identify(faceIdGlobal);
+              if (data[0]) {
+                // $("#results").text(JSON.stringify(data, null, 2));
+                faceIdGlobal = data[0].faceId;
+                identify(faceIdGlobal);
+              } else {
+                console.log('No face');
+                $("#card").removeClass("bg-light");
+                $("#card").addClass("bg-danger");
+              }
             })
             .fail(function(err) {
-              $("#results").text(JSON.stringify(err));
+              // $("#results").text(JSON.stringify(err));
             })
         });
     }
@@ -54,9 +60,18 @@ function identify(faceIdGlobal) {
           data: "{personGroupId:'users', faceIds:['" + faceIdGlobal + "'], confidenceThreshold: '.5'}"
       })
       .done(function(data) {
-          $("#identity").text(JSON.stringify(data, null, 2));
-          personIdGlobal = data[0].candidates[0].personId;
-          getName(personIdGlobal);
+          if (data[0].candidates[0]) {
+            $("#card").removeClass("bg-light bg-warning bg-danger");
+            $("#card").addClass("bg-success");
+            console.log('Recognised!');
+            // $("#identity").text(JSON.stringify(data, null, 2));
+            personIdGlobal = data[0].candidates[0].personId;
+            getName(personIdGlobal);
+          } else {
+            console.log('Face detected, but not recognised');
+            $("#card").removeClass("bg-light");
+            $("#card").addClass("bg-danger");
+          }
       })
       .fail(function() {
           alert("error");
