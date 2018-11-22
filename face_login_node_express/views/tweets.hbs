@@ -1,5 +1,11 @@
 <h1><i class="fab fa-twitter mb-4"></i> Tweets</h1>
-<h2>{{screen_name}}</h2>
+<h2 class="mb-4">@{{screen_name}}</h2>
 {{#each tweets}}
-	<p>{{this.full_text}}</p>
+	<div class="row mb-4">
+		<img class="align-self-start mr-3" src="{{this.user.profile_image_url}}" style="border-bottom: 3px solid #{{this.user.profile_link_color}}">
+		<div class="media-body">
+			@{{this.user.screen_name}}<br>
+			{{this.full_text}}
+		</div>
+	</div>
 {{/each}}

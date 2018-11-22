@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var twitter  = require('twit');
+var hbs 	 = require('hbs');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -32,6 +33,22 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')) // serve static files
+
+// handlebars helper (columns)
+hbs.registerHelper('grouped_each', function(every, context, options) {
+    var out = "", subcontext = [], i;
+    if (context && context.length > 0) {
+        for (i = 0; i < context.length; i++) {
+            if (i > 0 && i % every === 0) {
+                out += options.fn(subcontext);
+                subcontext = [];
+            }
+            subcontext.push(context[i]);
+        }
+        out += options.fn(subcontext);
+    }
+    return out;
+});
 
 // Use Handlebars view engine
 app.set('view engine', 'hbs');

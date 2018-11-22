@@ -1,24 +1,12 @@
-<style>
-	.user-image {
-		float: left;
-	}
-	.user-image img {
-		width: 30px;
-		height: 30px;
-	}
-	.user-info {
-		float: right;
-		text-align: left;
-		margin-left: 5px;
-	}
-</style>
-<h1><i class="fab fa-twitter mb-4"></i> Twitter</h1>
-{{#each friends}}
-<div class="media">
-	<img class="align-self-start mr-3" src="{{this.profile_image}}" style="border-bottom: 3px solid #{{this.link_color}}">
-	<div class="media-body">
-		<a href="twitter/{{this.screen_name}}"><p><strong>@{{this.screen_name}}</strong></a></br>
-		{{this.name}}</p>
+<h1><i class="fab fa-twitter mb-4"></i> Twitter Friends</h1>
+{{#grouped_each 3 friends}}
+	<div class="row">
+		{{#each this }}
+			<img class="align-self-start mr-3" src="{{this.profile_image}}" style="border-bottom: 3px solid #{{this.link_color}}">
+			<div class="media-body">
+				<a href="twitter/{{this.screen_name}}"><p><strong>@{{this.screen_name}}</strong></a></br>
+				{{this.name}}</p>
+			</div>
+	{{/each}}
 	</div>
-</div>
-{{/each}}
+{{/grouped_each}}
