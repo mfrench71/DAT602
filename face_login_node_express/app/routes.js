@@ -1,8 +1,8 @@
 module.exports = function(app, passport, twitter, config) {
 
     // Get the user IDs of 100 friends
-    function getFriends(next) {
-      twitter.get('friends/ids', { screen_name: config.screen_name, count: 100 }, function(err, data) {
+    function getFriends(screen_name, next) {
+      twitter.get('friends/ids', { screen_name: screen_name, count: 100 }, function(err, data) {
         // If we have the IDs, we can look up user information
         if (!err && data) {
           lookupUsers(data.ids, next);
@@ -48,8 +48,11 @@ module.exports = function(app, passport, twitter, config) {
 
     // twitter friends
     app.get('/twitter', isLoggedIn, function(req, res){
-      // get friend information
-      getFriends(function(err, data) {
+      // get twitter screen name of currently logged-in user
+      var user = req.user;
+      var screen_name = user.local.twitter;
+      // get user's friend information
+      getFriends(screen_name, function(err, data) {
         // Render the page with our Twitter data
         if (!err && data) {
           res.render('twitter.hbs', {
@@ -72,6 +75,7 @@ module.exports = function(app, passport, twitter, config) {
         if (!err && data) {
             console.log(data.statuses);
           res.render('tweets.hbs', {
+               user: req.user,
                tweets: data.statuses,
                screen_name: req.params.screen_name 
            });

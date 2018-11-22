@@ -72,6 +72,7 @@ module.exports = function(passport) {
                         var newUser            = new User();
                         newUser.local.username = username;
                         newUser.local.password = newUser.generateHash(password);
+                        newUser.local.twitter = req.body.twitter;
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
