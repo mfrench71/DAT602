@@ -67,6 +67,27 @@ module.exports = function(app, passport, twitter, config) {
       });
     });
 
+    // twitter visualisation test
+    app.get('/twitter-vis', isLoggedIn, function(req, res){
+      // get twitter screen name of currently logged-in user
+      var user = req.user;
+      var screen_name = user.local.twitter;
+      // get user's friend information
+      getFriends(screen_name, function(err, data) {
+        // Render the page with our Twitter data
+        if (!err && data) {
+          res.render('twitter.ejs', {
+               user: req.user, 
+               friends: data 
+           });
+        }
+        // Otherwise, render an error page
+        else {
+          res.send(err.message);
+        }
+      });
+    });
+
     // tweets
     app.get('/twitter/:screen_name', isLoggedIn, function(req, res) {
         // get friend information
@@ -82,7 +103,7 @@ module.exports = function(app, passport, twitter, config) {
         }
         // Otherwise, render an error page
         else {
-          res.send('Something went wrong :(\n'+err.message);
+          res.send(err.message);
         }
       });
     });
