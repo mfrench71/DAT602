@@ -1,6 +1,6 @@
 Webcam.set({
-  width: 320,
-  height: 240,
+  width: 240,
+  height: 180,
   image_format: 'jpeg',
   jpeg_quality: 90
 });
@@ -15,7 +15,7 @@ function take_snapshot() {
     base_image = new Image();
     base_image.src = data_uri;
     base_image.onload = function() {
-      context.drawImage(base_image, 0, 0, 320, 240);
+      context.drawImage(base_image, 0, 0, 240, 180);
 
       let data = canvas.toDataURL('image/jpeg');
 
