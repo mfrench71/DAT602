@@ -1,11 +1,28 @@
+<style>
+#banner {
+    background-image:url({{profile_banner_url}});
+    width: 1200px;
+    height:300px;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+</style>
 <h1><i class="fab fa-twitter mb-4"></i> Tweets</h1>
-<h2 class="mb-4">@{{screen_name}}</h2>
+<div class="row">
+	<div id="banner"></div>
+</div>
+<div class="row mt-1" style="border-bottom: 3px solid #{{profile_link_color}}">
+	<img class="align-self-start mr-3" src="{{profile_image_url}}">
+	<div class="media-body">
+		<h2 class="mt-1">@{{screen_name}}</h2>
+	</div>
+</div>
 {{#each tweets}}
-	<div class="row mb-4">
-		<img class="align-self-start mr-3" src="{{this.user.profile_image_url}}" style="border-bottom: 3px solid #{{this.user.profile_link_color}}">
+	<div class="row mt-2 mb-2 pb-2 pt-2" style="border-bottom: 1px solid silver;">
+		<i class="fab fa-twitter mr-2"></i>
 		<div class="media-body">
-			<strong>@{{this.user.screen_name}}</strong><br>
-			{{this.full_text}}
+			{{this.text}}
 		</div>
 	</div>
 {{/each}}

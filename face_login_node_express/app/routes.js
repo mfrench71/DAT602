@@ -62,7 +62,30 @@ module.exports = function(app, passport, twitter, config) {
         }
         // Otherwise, render an error page
         else {
-          res.send('Something went wrong :(\n'+err.message);
+          res.send(err.message);
+        }
+      });
+    });
+
+    // tweets
+    app.get('/twitter/:screen_name', isLoggedIn, function(req, res) {
+        // get friend's tweets
+      twitter.get('statuses/user_timeline', { screen_name: req.params.screen_name, count: 10 }, function(err, data) {
+        // Render the page with our Twitter data
+        if (!err && data) {
+            console.log(data);
+          res.render('tweets.hbs', {
+               user: req.user,
+               screen_name: req.params.screen_name,
+               profile_link_color: data[0].user.profile_link_color,
+               profile_image_url: data[0].user.profile_image_url,
+               profile_banner_url: data[0].user.profile_banner_url,
+               tweets: data
+           });
+        }
+        // Otherwise, render an error page
+        else {
+          res.send(err.message);
         }
       });
     });
@@ -79,26 +102,6 @@ module.exports = function(app, passport, twitter, config) {
           res.render('twitter.ejs', {
                user: req.user, 
                friends: data 
-           });
-        }
-        // Otherwise, render an error page
-        else {
-          res.send(err.message);
-        }
-      });
-    });
-
-    // tweets
-    app.get('/twitter/:screen_name', isLoggedIn, function(req, res) {
-        // get friend information
-      twitter.get('search/tweets', { q: req.params.screen_name, tweet_mode: 'extended' }, function(err, data) {
-        // Render the page with our Twitter data
-        if (!err && data) {
-            console.log(data.statuses);
-          res.render('tweets.hbs', {
-               user: req.user,
-               tweets: data.statuses,
-               screen_name: req.params.screen_name 
            });
         }
         // Otherwise, render an error page
