@@ -114,7 +114,8 @@ module.exports = function(app, passport, twitter, config) {
     // home
     app.get('/', function(req, res) {
         res.render('index.hbs', {
-            user: req.user
+            user: req.user,
+            title: 'home'
         });
     });
 
