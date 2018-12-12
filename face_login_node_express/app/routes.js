@@ -22,7 +22,7 @@ module.exports = function(app, passport, twitter, config) {
           // We'll fill this array with the friend data you need
           var friends_array = new Array();
           for (index in data) {
-            // Get your friend's join date and do some leading zero magic
+            // Get your friend's join date and add leading zeroes
             var date = new Date(data[index].created_at);
             var date_str = date.getFullYear() + '-'
                    + ('0' + (date.getMonth()+1)).slice(-2) + '-'
