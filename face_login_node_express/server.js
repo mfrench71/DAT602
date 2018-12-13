@@ -48,12 +48,14 @@ hbs.registerHelper('grouped_each', function(every, context, options) {
     return out;
 });
 
+// handlebars helper (conditional)
 hbs.registerHelper('ifEquals', function(a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
 });
 
-// Use Handlebars view engine
+// Use handlebars view engine
 app.set('view engine', 'hbs');
+// Use EJS view engine
 app.set('view engine', 'ejs');
 
 // required for passport
