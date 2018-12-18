@@ -53,6 +53,11 @@ hbs.registerHelper('ifEquals', function(a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
 });
 
+// handlebars helper (lower case)
+hbs.registerHelper('toLowerCase', function(str) {
+  return str.toLowerCase();
+});
+
 // Use handlebars view engine
 app.set('view engine', 'hbs');
 // Use EJS view engine
