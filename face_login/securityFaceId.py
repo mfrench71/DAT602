@@ -1,7 +1,6 @@
 #*****securityFaceId.py*****#
 
 import requests
-import paho.mqtt.client as mqttClient
 from operator import itemgetter
 from picamera import PiCamera
 import sys
@@ -12,7 +11,7 @@ import datetime
 import shutil
 import time
 
-BaseDirectory = '/home/pi/DAT602/images/' # directory where picamera photos are stored
+BaseDirectory = '/home/pi/DAT602/face_login/images/' # directory where picamera photos are stored
 KEY = '750cc2f2c6fe4633a2ace4e9d7335867' # authorization key for azure
 group_id = 'users' # name of personGroup
 
@@ -120,20 +119,3 @@ while True:
         if os.path.isdir(directory):
             shutil.rmtree(directory)
         time.sleep(5) # wait 5 seconds before taking another picture
-
-#*****Publish name of recognised person over MQTT*****#
-
-broker_address= "m23.cloudmqtt.com"
-#broker address = "mqtt://broker.i-dat.org:80"
-port = 16269
-#port = 80
-user = "xtrzjlsv"
-password = "WK0MHl3W2D5j"
-
-client = mqttClient.Client("DAT602")               #create new instance
-client.username_pw_set(user, password=password)    #set username and password
-#client.on_connect= on_connect                      #attach function to callback
-print('Connecting to MQTT broker')
-client.connect(broker_address, port=port)          #connect to broker
-client.publish("DAT602/test", getName(result[0][0]))
-client.disconnect()

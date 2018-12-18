@@ -4,7 +4,7 @@ import sys
 import os
 import time
 
-people = ['Cass','Donald','Matthew']
+people = ['Cass','Donald','Matthew','Sam']
 nameAndID = [] # empty list for persons' name and personId
 group_id = 'users'
 KEY = '8a294252e3bf4c87bc3b0587b25dd997'
@@ -31,7 +31,7 @@ def addFaceToPerson(list):
     conn = httplib.HTTPSConnection('westus.api.cognitive.microsoft.com')
     for item in list:
         params = urllib.urlencode({'personGroupId': group_id, 'personId': item[1]}) # item[1] is the personId created from addPeople()
-        directory = '/home/pi/DAT602/images/'+item[0] # item[0] is peron's name, each person should have a directory named after them filled with photos of them
+        directory = '/home/pi/DAT602/face_login/images/'+item[0] # item[0] is person's name, each person should have a directory named after them filled with photos of them
         for filename in os.listdir(directory):
             if filename.endswith('.jpg'): # adjust this depending on the file type of your photos
                 filePath = os.path.join(directory, filename) # creates full file path

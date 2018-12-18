@@ -5,8 +5,8 @@ import os
 bucketName = 'dat-602-users'
 
 s3=boto3.resource('s3')
-directory = '/home/pi/Pictures/'
-fileName = 'image2.jpg'
+directory = '/home/pi/DAT602/face_login/images/Matthew/'
+fileName = 'matthew_01.jpg'
 filePath = os.path.join(directory,fileName)
 data = open(filePath, 'rb')
 s3.Bucket(bucketName).put_object(Key=fileName, Body=data, ContentType='image/jpeg')
