@@ -2,7 +2,7 @@
 import urllib, httplib, base64, json
 
 group_id = 'users'
-KEY = '750cc2f2c6fe4633a2ace4e9d7335867'
+KEY = ''
 
 params = urllib.urlencode({'personGroupId': group_id})
 headers = {'Ocp-Apim-Subscription-Key': KEY}
