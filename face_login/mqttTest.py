@@ -18,8 +18,8 @@ Connected = False   #global variable for the state of the connection
 
 broker_address= "m23.cloudmqtt.com"
 port = 16269
-user = "xtrzjlsv"
-password = "WK0MHl3W2D5j"
+user = ""
+password = ""
 
 client = mqttClient.Client("FaceRecognition")      #create new instance
 client.username_pw_set(user, password=password)    #set username and password
