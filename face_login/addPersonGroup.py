@@ -2,7 +2,7 @@
 import requests
 import urllib, httplib, base64
 
-KEY = '750cc2f2c6fe4633a2ace4e9d7335867'
+KEY = ''
 
 group_id = 'users'
 body = '{"name": "Users"}'
