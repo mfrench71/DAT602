@@ -2,7 +2,7 @@ import httplib, urllib, base64, json
 
 headers = {
     # Request headers
-    'Ocp-Apim-Subscription-Key': '750cc2f2c6fe4633a2ace4e9d7335867',
+    'Ocp-Apim-Subscription-Key': '',
 }
 
 params = urllib.urlencode({
