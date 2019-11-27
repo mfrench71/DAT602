@@ -7,7 +7,7 @@ import time
 people = ['Cass','Donald','Matthew','Sam']
 nameAndID = [] # empty list for persons' name and personId
 group_id = 'users'
-KEY = '8a294252e3bf4c87bc3b0587b25dd997'
+KEY = ''
 
 # creates people in personGroup of specified group_Id
 def addPeople():
