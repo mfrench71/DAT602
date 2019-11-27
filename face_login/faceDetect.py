@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 import sys
 import json
 
-KEY = '750cc2f2c6fe4633a2ace4e9d7335867'
+KEY = ''
 pic = 'images/Cass/cass_01.jpg'
 def recogn():
     headers = {'Content-Type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key': KEY}
