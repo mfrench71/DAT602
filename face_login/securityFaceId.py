@@ -12,7 +12,7 @@ import shutil
 import time
 
 BaseDirectory = '/home/pi/DAT602/face_login/images/' # directory where picamera photos are stored
-KEY = '750cc2f2c6fe4633a2ace4e9d7335867' # authorization key for azure
+KEY = '' # authorization key for azure
 group_id = 'users' # name of personGroup
 
 #*****Camera Setup*****#
