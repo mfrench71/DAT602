@@ -6,7 +6,7 @@
     "node-uuid": ">= 1.4.1"
   },
   "devDependencies": {
-    "express": "^4.15.0",
+    "express": "^4.17.3",
     "fs-extra": "^2.0.0",
     "klaw-sync": "^1.1.2"
   }
